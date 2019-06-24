@@ -6,7 +6,7 @@ var helpers = require("../helpers")
 function getImdbResults(searchTerm, cb) {
 
     var url = 'https://sg.media-imdb.com/suggests/' + searchTerm.charAt(0).toLowerCase() + '/' + encodeURIComponent(searchTerm)  + '.json'
-
+console.log(url)
     needle.get(url, function(err, res) {
 
         if (!err && res.statusCode == 200 && res.body) {
