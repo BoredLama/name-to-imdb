@@ -6,20 +6,22 @@ var helpers = require("../helpers")
 function getImdbResults(searchTerm, cb) {
 
     var url = 'https://sg.media-imdb.com/suggests/' + searchTerm.charAt(0).toLowerCase() + '/' + encodeURIComponent(searchTerm)  + '.json'
-console.log(url)
-    needle.get(url, function(err, res) {
 
-        if (!err && res.statusCode == 200 && res.body) {
+    try {
+        needle.get(url, function(err, res) {
 
-            var imdbParse = JSON.parse(res.body.toString().match(/{.*}/g))
+            if (!err && res.statusCode == 200 && res.body) {
 
-            var results = imdbParse.d
+                var imdbParse = JSON.parse(res.body.toString().match(/{.*}/g))
 
-            cb(results && results.length ? results : false, url)
+                var results = imdbParse.d
 
-        } else
-            cb(false)
-    })
+                cb(results && results.length ? results : false, url)
+
+            } else
+                cb(false)
+        })
+    } catch(e) { cb(false) }
 }
 
 function imdbFind(task, cb, loose) {
